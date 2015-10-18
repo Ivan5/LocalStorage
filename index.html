@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>LocalStorage</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+<div class="container">
+	<div class="split">
+		<h1>Tareas por realizar</h1>
+		<form id="todo_form">
+			<label for="">Tarea:</label>
+			<input type="text" placeholder="Hacer tarea de programación" autocomplete="off" id="todo">
+			<input type="submit" value="Registrar Tarea" id="date">
+		</form>
+	</div>
+	<div class="split">
+		<h1>Tareas por realizar</h1>
+		<ol id="todo_list">
+		</ol>
+	</div>
+</div>
+<script src="storaje.js"></script>
+	<script>
+		window.addEventListener('load',init);
+		var storage;
+		var clave = 'tutorial_storage';
+		function init(){
+			var formulario = document.querySelector('#todo_form');
+			storage = new Lista(clave);
+			formulario.addEventListener('submit',agregarActividad,false);
+			actualizarLista(storage.obtenerActividades());
+		}
+		function agregarActividad(e){
+			e.preventDefault();
+			var actividad = document.querySelector('#todo').value;
+			if(storage.agregarActividad(actividad)){
+				console.log("Se agrego la actividd");
+				actualizarLista(storage.obtenerActividades());
+			}
+		}
+		function actualizarLista(actividades){
+			var lista = document.querySelector('#todo_list');
+			lista.innerHTML = "";
+			if(actividades != null){
+				for(i in actividades){
+					var actividad = actividades[i];
+					var elemento = document.createElement('li');
+					elemento.innerHTML = actividad;
+					lista.appendChild(elemento);
+				}
+			}
+		}
+	</script>
+</body>
+</html>
